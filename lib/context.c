@@ -19,6 +19,7 @@
  *  MA  02110-1301  USA
  */
 
+#include <sys/resource.h>
 #include "private-libwebsockets.h"
 
 #ifndef LWS_BUILD_HASH
@@ -127,7 +128,12 @@ libwebsocket_create_context(struct lws_context_creation_info *info)
 	context->ka_probes = info->ka_probes;
 
 	/* to reduce this allocation, */
-	context->max_fds = getdtablesize();
+    // context->max_fds = getdtablesize();
+    context->max_fds = OPEN_MAX;
+    struct rlimit rl;
+    if (getrlimit(RLIMIT_NOFILE, &rl) != -1) {
+        context->max_fds = rl.rlim_cur;
+    }
 	lwsl_notice(" static allocation: %u + (%u x %u fds) = %u bytes\n",
 		sizeof(struct libwebsocket_context),
 		sizeof(struct libwebsocket_pollfd) +

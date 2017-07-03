@@ -5,11 +5,14 @@ LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE    := libwebsockets
+LOCAL_MODULE    := websockets_static
+LOCAL_MODULE_FILENAME    := libwebsockets_static
 LOCAL_CFLAGS    := -DLWS_BUILTIN_GETIFADDRS
 #LWS_LIB_PATH	:= ../../../shared/libwebsockets/lib
 LWS_LIB_PATH	:= ../lib
 LOCAL_C_INCLUDES:= $(LOCAL_PATH)/$(LWS_LIB_PATH)
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_C_INCLUDES) \
+	$(LOCAL_PATH)
 LOCAL_SRC_FILES := \
 	$(LWS_LIB_PATH)/alloc.c \
 	$(LWS_LIB_PATH)/base64-decode.c \

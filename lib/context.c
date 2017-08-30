@@ -129,7 +129,7 @@ libwebsocket_create_context(struct lws_context_creation_info *info)
 
 	/* to reduce this allocation, */
     // context->max_fds = getdtablesize();
-    context->max_fds = OPEN_MAX;
+    context->max_fds = FOPEN_MAX;
     struct rlimit rl;
     if (getrlimit(RLIMIT_NOFILE, &rl) != -1) {
         context->max_fds = rl.rlim_cur;
